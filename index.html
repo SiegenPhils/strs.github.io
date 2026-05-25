@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Siegen Philippines • Storage Tank Recommendation System</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div class="container">
+
+  <section class="hero">
+    <div class="brand-logo-wrap">
+      <img src="ZOOM-LOGO3.png" alt="Siegen Logo" class="brand-logo" />
+    </div>
+    <h1>Storage Tank Recommendation System</h1>
+    <p>
+      Find the ideal storage tank solution based on your industry, operational application, and required storage capacity. Built for modern industrial operations.
+    </p>
+    <div class="hero-buttons">
+      <a href="#recommendation" class="btn btn-primary">Explore Recommendations</a>
+      <a href="https://www.siegenphilippines.com" target="_blank" class="btn btn-secondary">Visit Siegen Philippines</a>
+    </div>
+  </section>
+
+  <section class="main-grid">
+    <div class="card">
+      <h2>1. Select Industry</h2>
+      <div class="list" id="industryList"></div>
+    </div>
+
+    <div class="card">
+      <h2>2. Select Application</h2>
+      <div class="list" id="useList"></div>
+    </div>
+
+    <div class="card recommendation-panel" id="recommendation">
+      <div class="panel-header-wrap">
+        <div class="recommendation-title">
+          <h2>Recommended Tank Solutions</h2>
+          <div class="badge" id="selectedInfo">Industry Selected</div>
+        </div>
+      </div>
+
+      <div class="panel-body-split">
+        <div class="tank-grid-container">
+          <div class="tank-grid" id="tankGrid"></div>
+        </div>
+        
+        <div class="panel-visual-sidebar" id="panelVisualSidebar">
+          <img src="AGT.webp" id="tankFeaturedPreviewImage" alt="Featured Storage Tank Preview" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="feature-card">
+      <h3>Fuel Storage Systems</h3>
+      <p>Underground, aboveground, bulk fuel, and transportation tanks engineered for industrial and commercial fuel operations.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Water & Fire Reserve</h3>
+      <p>Modular, elevated, and FRP water tanks designed for water backup, fire reserve systems, and utility distribution networks.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Chemical Processing</h3>
+      <p>Corrosion-resistant tanks for chemical storage, pharmaceutical, food-grade, and industrial mixing applications.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Custom Fabrication</h3>
+      <p>Siegen Philippines provides fully customized capacities, layouts, piping integration, and engineered industrial tank systems.</p>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div>
+      <h2>Why Choose Siegen Philippines?</h2>
+      <p>Siegen Philippines is a trusted engineering and fabrication company specializing in storage tank systems for fuel, water, industrial, commercial, and chemical applications across the Philippines.</p>
+      <ul>
+        <li>✔ Industrial-grade fabrication standards</li>
+        <li>✔ Custom capacities and dimensions</li>
+        <li>✔ Fuel, chemical, water, and process tanks</li>
+        <li>✔ Modern fabrication and installation support</li>
+        <li>✔ Trusted by industrial and commercial clients</li>
+      </ul>
+      <div class="hero-buttons">
+        <a href="https://www.siegenphilippines.com" target="_blank" class="btn btn-primary">Contact Siegen</a>
+      </div>
+    </div>
+    <div class="cta-image">
+      <img src="https://static.wixstatic.com/media/0cc46a_8a89dcee7bcd4873bbba39d3ab5e6034~mv2.jpg/v1/fill/w_2500,h_1874,al_c/0cc46a_8a89dcee7bcd4873bbba39d3ab5e6034~mv2.jpg" alt="Storage Tank Facility" />
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Storage Tank Recommendation System • Powered by Siegen Philippines
+  </footer>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal()">✕</button>
+    <h3 id="modalTitle"></h3>
+    <p><strong>Capacity Range:</strong> <span id="modalCapacity"></span></p>
+    <p id="modalReason"></p>
+    <p><strong>Recommended For:</strong> Industrial applications, commercial facilities, processing systems, fuel stations, utility infrastructure, and engineered tank operations.</p>
+    <div class="modal-action">
+      <a href="https://www.siegenphilippines.com/request-quotation" target="_blank" class="btn btn-primary">Get Quotation Now</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const industries = {
+  "Gasoline": {
+    uses: {
+      "Gasoline Station": [
+        {
+          name: "Underground Storage Tank",
+          capacity: "10,000L – 100,000L+",
+          reason: "Best for fuel stations with safety, compliance, and space efficiency.",
+          image: "UGT.webp"
+        },
+        {
+          name: "Above Ground Storage Tank",
+          capacity: "5,000L – 80,000L",
+          reason: "Easy maintenance and monitoring for fuel reserve systems.",
+          image: "AGT.webp"
+        }
+      ],
+      "Fuel Depot": [
+        {
+          name: "Bulk Storage Tank",
+          capacity: "50,000L – 500,000L+",
+          reason: "Ideal for large-scale fuel storage and distribution operations.",
+          image: "BULK.webp"
+        },
+        {
+          name: "Vertical Storage Tank",
+          capacity: "20,000L – 200,000L",
+          reason: "Efficient high-capacity storage with smaller footprint.",
+          image: "VERTICAL.webp"
+        }
+      ],
+      "Fuel Transportation": [
+        {
+          name: "Tanker / Trailer Tank",
+          capacity: "5,000L – 45,000L",
+          reason: "Designed for safe fuel transportation and delivery.",
+          image: "TANKER.webp"
+        },
+        {
+          name: "Prover Tank",
+          capacity: "50L – 2,000L+",
+          reason: "Specialized calibration vessel used to verify flow meters and fuel delivery accuracy.",
+          image: "PROVER.webp"
+        }
+      ],
+      "Backup Generator System": [
+        {
+          name: "Day Tank",
+          capacity: "500L – 10,000L",
+          reason: "Supports uninterrupted generator fuel supply systems.",
+          image: "IMG_9808.webp"
+        }
+      ]
+    }
+  },
+  "Manufacturing / Industrial": {
+    uses: {
+      "Industrial Liquid Storage": [
+        {
+          name: "Above Ground Storage Tank",
+          capacity: "10,000L – 200,000L",
+          reason: "Suitable for industrial oil, fuel, and liquid storage.",
+          image: "AGT.webp"
+        },
+        {
+          name: "Vertical Storage Tank",
+          capacity: "5,000L – 300,000L",
+          reason: "Space-saving option for industrial facilities.",
+          image: "VERTICAL.webp"
+        }
+      ],
+      "Raw Material Storage": [
+        {
+          name: "Bulk Storage Tank",
+          capacity: "50,000L – 1,000,000L",
+          reason: "Handles large-volume industrial material storage.",
+          image: "BULK.webp"
+        },
+        {
+          name: "SILO Tank",
+          capacity: "20,000L – 500,000L",
+          reason: "Perfect for powders, grains, and cement materials.",
+          image: "SILO.webp"
+        }
+      ],
+      "Mixing & Processing": [
+        {
+          name: "Mixing Tank",
+          capacity: "500L – 50,000L",
+          reason: "Designed for blending chemicals and industrial liquids.",
+          image: "MIXING MAIN.webp"
+        },
+        {
+          name: "Stainless Steel Tank",
+          capacity: "1,000L – 100,000L",
+          reason: "Corrosion-resistant and hygienic processing system.",
+          image: "STAINLESS.webp"
+        }
+      ],
+      "Compressed Applications": [
+        {
+          name: "Pressure Tank",
+          capacity: "1,000L – 30,000L",
+          reason: "Built for pressurized industrial operations.",
+          image: "PRESSURE.webp"
+        }
+      ]
+    }
+  },
+  "Water & Waste": {
+    uses: {
+      "Water Distribution": [
+        {
+          name: "Elevated Water Storage Tank",
+          capacity: "50,000L – 1,000,000L+",
+          reason: "Provides gravity-fed water pressure systems.",
+          image: "ELEVATED.webp"
+        }
+      ],
+      "Wastewater Storage": [
+        {
+          name: "Vertical Storage Tank",
+          capacity: "5,000L – 200,000L",
+          reason: "Reliable for wastewater collection and treatment.",
+          image: "VERTICAL.webp"
+        },
+        {
+          name: "FRP Tank",
+          capacity: "1,000L – 50,000L",
+          reason: "Corrosion-resistant solution for harsh environments.",
+          image: "FRP Revise.webp"
+        }
+      ],
+      "Fire Reserve & Backup": [
+        {
+          name: "Modular Tank",
+          capacity: "10,000L – 500,000L",
+          reason: "Expandable and ideal for reserve water systems.",
+          image: "MODULAR.webp"
+        }
+      ],
+      "Rainwater Harvesting": [
+        {
+          name: "Underground Water Tank",
+          capacity: "5,000L – 100,000L",
+          reason: "Efficient collection and reuse of rainwater systems.",
+          image: "UGT.webp"
+        }
+      ]
+    }
+  },
+  "Chemical & Health": {
+    uses: {
+      "Chemical Storage": [
+        {
+          name: "FRP Chemical Tank",
+          capacity: "1,000L – 80,000L",
+          reason: "Excellent resistance against corrosive chemicals.",
+          image: "FRP Revise.webp"
+        },
+        {
+          name: "Pressure Tank",
+          capacity: "1,000L – 30,000L",
+          reason: "Safe for pressurized chemical applications.",
+          image: "PRESSURE.webp"
+        }
+      ],
+      "Pharmaceutical & Food Grade": [
+        {
+          name: "Stainless Steel Tank",
+          capacity: "500L – 100,000L",
+          reason: "Maintains sanitary and contamination-free storage.",
+          image: "STAINLESS.webp"
+        }
+      ],
+      "Chemical Mixing": [
+        {
+          name: "Mixing Tank",
+          capacity: "500L – 50,000L",
+          reason: "Used for controlled blending and production processes.",
+          image: "MIXING MAIN.webp"
+        },
+        {
+          name: "IBC Tank",
+          capacity: "500L – 1,500L",
+          reason: "Portable storage and dosing for chemicals.",
+          image: "IBC.webp"
+        }
+      ]
+    }
+  },
+  "Commercial & Residential": {
+    uses: {
+      "Building Water Reserve": [
+        {
+          name: "Modular Tank",
+          capacity: "5,000L – 200,000L",
+          reason: "Efficient for building and community water systems.",
+          image: "MODULAR.webp"
+        }
+      ],
+      "Residential Water Storage": [
+        {
+          name: "FRP Tank",
+          capacity: "500L – 10,000L",
+          reason: "Affordable and durable residential water solution.",
+          image: "FRP Revise.webp"
+        },
+        {
+          name: "Pressure Tank",
+          capacity: "100L – 5,000L",
+          reason: "Improves household water pressure systems.",
+          image: "PRESSURE.webp"
+        }
+      ],
+      "Backup Fuel System": [
+        {
+          name: "Above Ground Storage Tank",
+          capacity: "1,000L – 20,000L",
+          reason: "Suitable for generators and backup fuel supply.",
+          image: "AGT.webp"
+        }
+      ],
+      "Commercial Buildings": [
+        {
+          name: "Vertical Water Tank",
+          capacity: "5,000L – 150,000L",
+          reason: "Ideal for malls, offices, and high-rise structures.",
+          image: "VERTICAL.webp"
+        }
+      ]
+    }
+  }
+};
+
+// IMAGE PRELOADER ENGINE
+const preloadedImages = {};
+function preloadTankImages() {
+  const imagesToPreload = new Set();
+  // Collect unique image names from dataset
+  Object.values(industries).forEach(industry => {
+    Object.values(industry.uses).forEach(tankArray => {
+      tankArray.forEach(tank => {
+        if (tank.image) imagesToPreload.add(tank.image);
+      });
+    });
+  });
+
+  // Preload into browser cache memory
+  imagesToPreload.forEach(imgName => {
+    const img = new Image();
+    img.src = imgName;
+    preloadedImages[imgName] = img;
+  });
+}
+
+let selectedIndustry = "Gasoline";
+let selectedUse = "Gasoline Station";
+
+const industryList = document.getElementById("industryList");
+const useList = document.getElementById("useList");
+const tankGrid = document.getElementById("tankGrid");
+const recommendationPanel = document.getElementById("recommendation");
+const selectedInfo = document.getElementById("selectedInfo");
+const tankPreviewImg = document.getElementById("tankFeaturedPreviewImage");
+
+function renderIndustries(){
+  industryList.innerHTML = "";
+  Object.keys(industries).forEach(industry => {
+    const btn = document.createElement("button");
+    btn.className = `select-btn ${selectedIndustry === industry ? "active" : ""}`;
+    btn.innerText = industry;
+    btn.onclick = () => {
+      selectedIndustry = industry;
+      selectedUse = Object.keys(industries[industry].uses)[0];
+      renderIndustries();
+      renderUses();
+      renderRecommendations();
+    };
+    industryList.appendChild(btn);
+  });
+}
+
+function renderUses(){
+  useList.innerHTML = "";
+  Object.keys(industries[selectedIndustry].uses).forEach(use => {
+    const btn = document.createElement("button");
+    btn.className = `select-btn ${selectedUse === use ? "active" : ""}`;
+    btn.innerText = use;
+    btn.onclick = () => {
+      selectedUse = use;
+      renderUses();
+      renderRecommendations();
+    };
+    useList.appendChild(btn);
+  });
+}
+
+function updatePreviewImage(imageName) {
+  const displayImg = imageName ? imageName : "AGT.webp";
+  if (tankPreviewImg.src.split('/').pop() === displayImg) return;
+  
+  tankPreviewImg.classList.add("changing");
+  
+  setTimeout(() => {
+    tankPreviewImg.src = displayImg;
+    tankPreviewImg.classList.remove("changing");
+  }, 100);
+}
+
+function renderRecommendations(){
+  const startHeight = recommendationPanel.getBoundingClientRect().height;
+  recommendationPanel.style.height = `${startHeight}px`;
+
+  tankGrid.innerHTML = "";
+  const tanks = industries[selectedIndustry].uses[selectedUse];
+  selectedInfo.innerText = `${selectedIndustry} • ${selectedUse}`;
+
+  if (tanks && tanks.length > 0) {
+    updatePreviewImage(tanks[0].image);
+  }
+
+  tanks.forEach((tank, index) => {
+    const card = document.createElement("div");
+    card.className = `tank-card ${index === 0 ? "focused" : ""} entering`;
+
+    card.innerHTML = `
+      <div class="tank-name">${tank.name}</div>
+      <div class="capacity"><span>Capacity:</span> ${tank.capacity}</div>
+      <div class="reason">${tank.reason}</div>
+      <div class="tag">Click to View Details</div>
+    `;
+
+    card.onmouseenter = () => {
+      document.querySelectorAll('.tank-card').forEach(c => c.classList.remove('focused'));
+      card.classList.add('focused');
+      updatePreviewImage(tank.image);
+    };
+
+    card.onclick = () => {
+      document.querySelectorAll('.tank-card').forEach(c => c.classList.remove('focused'));
+      card.classList.add('focused');
+      updatePreviewImage(tank.image);
+      openModal(tank);
+    };
+
+    tankGrid.appendChild(card);
+    
+    setTimeout(() => {
+      card.classList.remove('entering');
+    }, index * 40);
+  });
+
+  requestAnimationFrame(() => {
+    recommendationPanel.style.height = 'auto';
+    const targetHeight = recommendationPanel.getBoundingClientRect().height;
+    recommendationPanel.style.height = `${startHeight}px`;
+    
+    setTimeout(() => {
+      recommendationPanel.style.height = `${targetHeight}px`;
+    }, 10);
+  });
+}
+
+function openModal(tank){
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("modalTitle").innerText = tank.name;
+  document.getElementById("modalCapacity").innerText = tank.capacity;
+  document.getElementById("modalReason").innerText = tank.reason;
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display = "none";
+}
+
+window.onclick = function(event){
+  const modal = document.getElementById("modal");
+  if(event.target === modal){
+    closeModal();
+  }
+}
+
+recommendationPanel.addEventListener('transitionend', (e) => {
+  if (e.propertyName === 'height' && recommendationPanel.style.height !== 'auto') {
+    recommendationPanel.style.height = 'auto';
+  }
+});
+
+// Execute preloader and initialization
+preloadTankImages();
+renderIndustries();
+renderUses();
+renderRecommendations();
+</script>
+
+</body>
+</html>
